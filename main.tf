@@ -48,34 +48,9 @@ resource "aws_iam_role_policy" "log_agent" {
 #####
 # Security groups
 #####
-resource "aws_security_group" "ecs_service" {
-  vpc_id      = var.vpc_id
-  name_prefix = var.sg_name_prefix == "" ? "${var.name_prefix}-ecs-service-sg-" : "${var.sg_name_prefix}-"
-  description = "Fargate service security group"
-  tags = merge(
-    var.tags,
-    {
-      Name = var.sg_name_prefix == "" ? "${var.name_prefix}-ecs-service-sg" : var.sg_name_prefix
-    },
-  )
-
-  revoke_rules_on_delete = true
-
-  lifecycle {
-    create_before_destroy = true
-  }
+data "aws_security_group" "selected" {
+  id = var.security_group_id
 }
-
-resource "aws_security_group_rule" "egress_service" {
-  security_group_id = aws_security_group.ecs_service.id
-  type              = "egress"
-  protocol          = "-1"
-  from_port         = 0
-  to_port           = 0
-  cidr_blocks       = ["0.0.0.0/0"]
-  ipv6_cidr_blocks  = ["::/0"]
-}
-
 #####
 # Load Balancer Target group
 #####
@@ -288,7 +263,7 @@ resource "aws_ecs_service" "service" {
 
   network_configuration {
     subnets          = var.private_subnet_ids
-    security_groups  = [aws_security_group.ecs_service.id]
+    security_groups  = [data.aws_security_group.selected.id]
     assign_public_ip = var.task_container_assign_public_ip
   }
 

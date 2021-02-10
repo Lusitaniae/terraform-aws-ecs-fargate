@@ -41,6 +41,11 @@ variable "platform_version" {
   default     = "LATEST"
 }
 
+variable "lb_arn" {
+  description = "Arn for the LB for which the service should be attach to."
+  type        = string
+}
+
 variable "task_container_image" {
   description = "The image used to start a container."
   type        = string
@@ -176,10 +181,10 @@ variable "propogate_tags" {
   default     = "TASK_DEFINITION"
 }
 
-variable "target_groups" {
-  type        = any
-  default     = []
-  description = "The name of the target groups to associate with ecs service"
+variable "target_group_name" {
+  type        = string
+  default     = ""
+  description = "The name for the tasks target group"
 }
 
 variable "load_balanced" {
@@ -195,19 +200,19 @@ variable "logs_kms_key" {
 }
 
 variable "capacity_provider_strategy" {
-  type        = list(any)
+  type        = list()
   description = "(Optional) The capacity_provider_strategy configuration block. This is a list of maps, where each map should contain \"capacity_provider \", \"weight\" and \"base\""
   default     = []
 }
 
 variable "placement_constraints" {
-  type        = list(any)
+  type        = list()
   description = "(Optional) A set of placement constraints rules that are taken into consideration during task placement. Maximum number of placement_constraints is 10. This is a list of maps, where each map should contain \"type\" and \"expression\""
   default     = []
 }
 
 variable "proxy_configuration" {
-  type        = list(any)
+  type        = list()
   description = "(Optional) The proxy configuration details for the App Mesh proxy. This is a list of maps, where each map should contain \"container_name\", \"properties\" and \"type\""
   default     = []
 }

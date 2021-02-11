@@ -11,7 +11,7 @@ variable "sg_name_prefix" {
 
 variable "security_group_ids" {
   description = "Security Group ID"
-  type        = string
+  type        = list(string)
   default     = ""
 }
 

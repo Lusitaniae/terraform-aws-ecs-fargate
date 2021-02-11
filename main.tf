@@ -46,12 +46,6 @@ resource "aws_iam_role_policy" "log_agent" {
 }
 
 #####
-# Security groups
-#####
-data "aws_security_group" "selected" {
-  id = var.security_group_id
-}
-#####
 # Load Balancer Target group
 #####
 resource "aws_lb_target_group" "task" {

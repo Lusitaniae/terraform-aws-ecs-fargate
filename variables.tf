@@ -9,7 +9,7 @@ variable "sg_name_prefix" {
   default     = ""
 }
 
-variable "security_group_id" {
+variable "security_group_ids" {
   description = "Security Group ID"
   type        = string
   default     = ""

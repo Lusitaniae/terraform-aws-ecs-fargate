@@ -54,7 +54,7 @@ resource "aws_lb_target_group" "task" {
   name        = var.target_group_name != "" ? var.target_group_name : "${var.name_prefix}-target-${var.task_container_port}"
   vpc_id      = var.vpc_id
   protocol    = var.task_container_protocol
-  port        = var.task_container_port
+  port        = "80"
   target_type = "ip"
 
   dynamic "health_check" {
